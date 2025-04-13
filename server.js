@@ -8,6 +8,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import artworkRoutes from './routes/artworkRoutes.js';
 
+// Artwork test
+import devRoutes from './routes/devs.js';
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -24,6 +27,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // Routes
 app.use('/api/artwork', artworkRoutes);
+app.use('/api/dev', devRoutes); // testing artworks in db
 //app.use('/routes/artworkRoutes.js', artworkRoutes);
 
 // Health Check
