@@ -1,3 +1,5 @@
+// for testing purposes only
+
 import express from 'express';
 import Artwork from '../models/Artwork.js';
 
