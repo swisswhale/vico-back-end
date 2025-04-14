@@ -1,3 +1,4 @@
+console.log('Script started')
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import User from '../../models/User.js';
