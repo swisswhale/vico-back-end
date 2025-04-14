@@ -1,10 +1,18 @@
-// Test
 import express from 'express';
-import { searchExternalArtworks } from '../controllers/artworkController.js';
+import {
+    searchExternalArtworks,
+    searchHarvardArtworksController,
+    getHarvardArtworkController
+} from '../controllers/artworkController.js';
 
 const router = express.Router();
 
-// GET /api/artwork/search?q=warhol
+// Artsy Routes
+router.get('/artsy/search', searchExternalArtworks);
 router.get('/search', searchExternalArtworks);
+
+// Harvard API Routes
+router.get('/harvard/search', searchHarvardArtworksController);
+router.get('/harvard/artwork/:id', getHarvardArtworkController);
 
 export default router;
