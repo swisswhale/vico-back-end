@@ -6,7 +6,16 @@ console.log('🧪 Loaded from .env in server.js:', process.env.ARTSY_CLIENT_ID);
 
 import express from 'express';
 import mongoose from 'mongoose';
+
+import authRouter from './routes/authRoutes.js';
+
+
+import userSignedController from './routes/userRoutes.js'
+
+
 import artworkRoutes from './routes/artworkRoutes.js';
+
+
 
 // Artwork test
 import devRoutes from './routes/devs.js';
@@ -19,13 +28,23 @@ app.use(express.json());
 
 // DB Connection
 mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+//    useNewUrlParser: true,
+//    useUnifiedTopology: true,
+//    before you go shooting the messenger, terminal seems to not like either of these.
 })
     .then(() => console.log('✅ Connected to MongoDB'))
     .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// Routes
+
+    // Controllers
+
+
+
+
+
+
+    // Routes
+app.use('/auth', authRouter);
 app.use('/api/artwork', artworkRoutes);
 app.use('/api/dev', devRoutes); // testing artworks in db
 //app.use('/routes/artworkRoutes.js', artworkRoutes);
