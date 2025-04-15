@@ -26,6 +26,7 @@ export const searchHarvardArtworksController = async (req, res) => {
         const artworks = await searchHarvardArtworks(query, size);
         console.log('Received artworks:', artworks.length);
         res.json(artworks);
+
     } catch (err) {
         console.error('Harvard API search error:', err.message);
         res.status(500).json({ error: 'Failed to search Harvard artworks', details: err.message });

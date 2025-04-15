@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+const Schema = mongoose.Schema;
+const model = mongoose.model;
 
 const artworkSchema = new mongoose.Schema({
     artsyId: { type: String, required: true, unique: true },
@@ -14,4 +16,6 @@ const artworkSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Optional: tie to user
 }, { timestamps: true });
 
-export default mongoose.model('Artwork', artworkSchema);
+const Artwork = model('Artwork', artworkSchema);
+
+export default { Artwork, artworkSchema}

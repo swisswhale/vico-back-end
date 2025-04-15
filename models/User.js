@@ -33,9 +33,17 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
-userSchema.methods.comparePassword = function (candidatePassword) {
+userSchema.methods.comparePassword = (candidatePassword) => {
     return bcrypt.compare(candidatePassword, this.password); // ✅ fixed typo: "candiatePassword"
 };
+
+// userSchema.set('toJSON', {
+//     transform: (document, returnedObject) => {
+//         delete returnedObject.hashedPassword;
+//     }
+// });
+
+// I'm not sure, but we may need to switch to using this maybe? ~Metroid-x
 
 //module.exports = mongoose.model('User', userSchema);
 

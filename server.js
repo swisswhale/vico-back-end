@@ -14,7 +14,7 @@ import userSignedController from './routes/userRoutes.js'
 
 
 import artworkRoutes from './routes/artworkRoutes.js';
-
+import collectionRoutes from './routes/collectionRoutes.js'
 
 
 // Artwork test
@@ -45,7 +45,13 @@ mongoose.connect(process.env.MONGODB_URI, {
 
     // Routes
 app.use('/auth', authRouter);
-app.use('/api/artwork', artworkRoutes);
+
+
+// app.use('/artwork', artworkRoutes);
+// I realized this would be better used/called from within the collections routes so we 
+// can render artworks' info cleanly from there instead. 
+//                                                                        ~Metroid-X
+app.use('/collection', collectionRoutes);
 app.use('/api/dev', devRoutes); // testing artworks in db
 //app.use('/routes/artworkRoutes.js', artworkRoutes);
 
