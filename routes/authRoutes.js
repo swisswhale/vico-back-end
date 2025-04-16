@@ -9,49 +9,63 @@ const saltRounds = 12;
 
 router.post('/sign-up', async (req, res) => {
   try {
-    const userInDatabase = await (User.findOne({ username: req.body.username }) || User.findOne({ email: req.body.email }));
-    
-    if (userInDatabase) {
-      return res.status(409).json({err: 'Username already taken, OR Email already in use.'});
+    const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+      return res.status(400).json({ err: 'Please provide username, email, and password' });
     }
-    
+
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+
+    if (existingUser) {
+      return res.status(409).json({ err: 'Username already taken or Email already in use.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
     const user = await User.create({
-        username: req.body.username,
-        email: req.body.email,
-        hashedPassword: bcrypt.hashSync(req.body.password, saltRounds)
+      username,
+      email,
+      password: hashedPassword
     });
 
     const payload = { username: user.username, _id: user._id };
 
-    const token = jwt.sign({ payload }, process.env.JWT_SECRET);
+    const token = jwt.sign({ payload }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(201).json({ token });
   } catch (err) {
-    res.status(500).json({ err: err.message });
+    console.error('Sign-up error:', err);
+    res.status(500).json({ err: 'An error occurred during sign-up' });
   }
 });
 
 router.post('/sign-in', async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({ err: 'Please provide username and password' });
+    }
+
+    const user = await User.findOne({ username });
     if (!user) {
       return res.status(401).json({ err: 'Invalid credentials.' });
     }
 
-    const isPasswordCorrect = bcrypt.compareSync(
-      req.body.password, user.hashedPassword
-    );
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       return res.status(401).json({ err: 'Invalid credentials.' });
     }
 
     const payload = { username: user.username, _id: user._id };
 
-    const token = jwt.sign({ payload }, process.env.JWT_SECRET);
+    const token = jwt.sign({ payload }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     res.status(200).json({ token });
   } catch (err) {
-    res.status(500).json({ err: err.message });
+    console.error('Sign-in error:', err);
+    res.status(500).json({ err: 'An error occurred during sign-in' });
   }
 });
 

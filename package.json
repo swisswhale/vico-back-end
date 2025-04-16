@@ -29,7 +29,11 @@
     "type": "git",
     "url": "git+https://github.com/swisswhale/vico-back-end.git"
   },
-  "keywords": ["MERN", "backend", "API"],
+  "keywords": [
+    "MERN",
+    "backend",
+    "API"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
