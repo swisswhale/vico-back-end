@@ -42,24 +42,10 @@ app.use('/api/dev', devRoutes); // For testing purposes
 
 // Health Check
 app.get('/', (req, res) => {
-    res.send('🎨 Art Collector API is live.');
+  res.send('🎨 Art Collector API is live.');
 });
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
-
-/*import express from 'express';
-import connectDB from './config/db.js';
-
-connectDB();
-
-
-app.get('/', (req, res) => {
-    res.send('✅ Backend is running!');
-  });
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});*/
