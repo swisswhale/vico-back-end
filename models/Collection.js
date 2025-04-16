@@ -35,7 +35,8 @@ const CollectionSchema = new Schema({
         required: true,
         default: Date.now(),
     },
-    storedArtworks: [Artworks.artworkSchema],
+    storedArtworks: [Object],
+    // These will just be the artwork objects retrieved from the api, stored as normal Objects.
 });
 
 const Collection = model('Collection', CollectionSchema);
