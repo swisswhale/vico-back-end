@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true, trim: true },
-    email: { type: String, required: true, unique: true, lowercase: true },
+    // email: { type: String, required: true, unique: true, lowercase: true },
     password: {
         type: String,
         required: true,
@@ -27,21 +27,21 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-userSchema.pre("save", async function (next) {
-    if (!this.isModified("password")) return next();
-    this.password = await bcrypt.hash(this.password, 12);
-    next();
-});
-
-userSchema.methods.comparePassword = (candidatePassword) => {
-    return bcrypt.compare(candidatePassword, this.password); // ✅ fixed typo: "candiatePassword"
-};
-
-// userSchema.set('toJSON', {
-//     transform: (document, returnedObject) => {
-//         delete returnedObject.hashedPassword;
-//     }
+// userSchema.pre("save", async function (next) {
+//     if (!this.isModified("password")) return next();
+//     this.password = await bcrypt.hash(this.password, 12);
+//     next();
 // });
+
+// userSchema.methods.comparePassword = (candidatePassword) => {
+//     return bcrypt.compare(candidatePassword, this.password); // ✅ fixed typo: "candiatePassword"
+// };
+
+userSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        delete returnedObject.hashedPassword;
+    }
+});
 
 // I'm not sure, but we may need to switch to using this maybe? ~Metroid-x
 

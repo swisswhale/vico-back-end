@@ -12,7 +12,7 @@ import Artworks from '../models/Artwork.js'
 
 import { searchHarvardArtworks, getHarvardArtworkById } from '../services/harvardService.js';
 
-// Do not remove this ^^^ *I* am the lead Backend.
+// Do not remove this
 //                                      ~Metroid-X
 
 // // Artsy Routes

@@ -9,15 +9,14 @@ const saltRounds = 12;
 
 router.post('/sign-up', async (req, res) => {
   try {
-    const userInDatabase = await (User.findOne({ username: req.body.username }) || User.findOne({ email: req.body.email }));
+    const userInDatabase = await (User.findOne({ username: req.body.username }));
     
     if (userInDatabase) {
-      return res.status(409).json({err: 'Username already taken, OR Email already in use.'});
+      return res.status(409).json({err: 'Username already taken.'});
     }
     
     const user = await User.create({
         username: req.body.username,
-        email: req.body.email,
         hashedPassword: bcrypt.hashSync(req.body.password, saltRounds)
     });
 

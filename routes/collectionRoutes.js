@@ -11,9 +11,16 @@ import { searchHarvardArtworks, getHarvardArtworkById } from '../services/harvar
 // seems like it would be the most intuitive way to do things.
 //                                                                              ~Metroid-X
 
-// Index for testing
-router.get('/', (req,res) => {
-    res.send('<h1>Collection Route Works</h1>')
+// Index / read route for all collections
+router.get('/', async (req,res) => {
+    try {
+        const collections = await Collection.find();
+
+        res.send(`${collections}`);
+    } catch (err) {
+
+    }
+//    res.send('<h1>Collection Route Works</h1>')
 });
 
 // the new/create route for the form page to create a new collection from a user once signed in.
@@ -65,12 +72,13 @@ router.get('/new', async (req,res) => {
             </form>
         </main>
         `
-        // Don't touch the code above, it's being used by me so I can get/give an idea guess of 
+        // Don't touch the code above, it's being used by me so I can get/give an idea of 
         // how things will look once te frontend is complete, or alternatively, just a testbed 
         // for seeing if it will actually post to the db we're using.
         // just LMK if anything is acting up.
 //                                                                        ~Metroid-X
         res.send(FormTest);
+        res.status(201).json(FormTest);
     } catch(err) {
 
     }
@@ -79,6 +87,7 @@ router.get('/new', async (req,res) => {
 // post/create route for collections
 router.post('/', async (req,res) => {
     try {
+        // const createdCollection = await Collection.create(req.body);
         const createdCollection = await Collection.create(req.body);
         createdCollection.isPublic = req.body.isPublic == 'true';
         res.status(201).json(createdCollection);
