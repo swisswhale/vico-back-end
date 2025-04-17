@@ -11,6 +11,7 @@ import cors from 'cors';  // Import cors
 import authRouter from './routes/authRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import collectionRoutes from './routes/collectionRoutes.js';
+import artworkRoutes from './routes/artworkRoutes.js';
 import devRoutes from './routes/devs.js';
 
 const app = express();
@@ -18,9 +19,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173'
-}));
+app.use(cors());
 
 // DB Connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -38,6 +37,7 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use('/collections', collectionRoutes);
+app.use('/artwork', artworkRoutes);
 app.use('/api/dev', devRoutes); // For testing purposes
 
 // Health Check

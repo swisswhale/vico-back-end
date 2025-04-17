@@ -13,7 +13,7 @@ import Artworks from './Artwork.js'
 
 
 const CollectionSchema = new Schema({
-    Creator: {
+    creator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },

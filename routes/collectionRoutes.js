@@ -2,9 +2,10 @@ import express from 'express';
 
 const router = express.Router();
 
-import User from '../models/User.js'
+import User from '../models/User.js';
 import Artworks from '../models/Artwork.js'
 import Collection from '../models/Collection.js'
+import verifyToken from '../middleware/authMiddleware.js';
 import { searchHarvardArtworks, getHarvardArtworkById } from '../services/harvardService.js';
 // I believe it would be wise to include this ^^^ within the collection routes so we can render 
 // any artworks for users to select from in a dropdown or side-menu on the /new route, as that 
@@ -12,7 +13,7 @@ import { searchHarvardArtworks, getHarvardArtworkById } from '../services/harvar
 //                                                                              ~Metroid-X
 
 // Index / read route for all collections
-router.get('/', async (req,res) => {
+router.get('/', verifyToken, async (req,res) => {
     try {
         const collections = await Collection.find();
 
@@ -39,7 +40,7 @@ router.get('/', async (req,res) => {
 });
 
 // the new/create route for the form page to create a new collection from a user once signed in.
-router.get('/new', async (req,res) => {
+router.get('/new', verifyToken, async (req,res) => {
     try {
         const FormTest = `
         <main>
@@ -98,7 +99,7 @@ router.get('/new', async (req,res) => {
 });
 
 // post/create route for collections
-router.post('/', async (req,res) => {
+router.post('/', verifyToken, async (req,res) => {
     try {
         // const createdCollection = await Collection.create(req.body);
         const createdCollection = await Collection.create(req.body);
@@ -112,7 +113,7 @@ router.post('/', async (req,res) => {
     }
 }) ;
 
-router.get('/:collectionId', async (req,res) => {
+router.get('/:collectionId', verifyToken, async (req,res) => {
     try {
         const foundCollection = await Collection.findById(req.params.collectionId);
         
@@ -131,7 +132,7 @@ router.get('/:collectionId', async (req,res) => {
     }
 });
 
-router.delete('/:collectionId', async (req,res) => {
+router.delete('/:collectionId', verifyToken, async (req,res) => {
     try {
         const deletedCollection = await Collection.findByIdAndDelete(req.params.collectionId);
         
@@ -150,7 +151,7 @@ router.delete('/:collectionId', async (req,res) => {
     }
 });
 
-router.put('/:collectionId', async (req, res) => {
+router.put('/:collectionId', verifyToken, async (req, res) => {
     try {
         const updatedCollection = await Collection.findByIdAndUpdate(req.params.collectionId, req.body, {
             new: true,
