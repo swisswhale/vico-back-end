@@ -29,14 +29,6 @@ router.post('/sign-up', async (req, res) => {
       password: hashedPassword,
     });
 
-    const userCollection = await Collection.create({
-      creator: user._id,
-      title: `${user.username}'s Collection.`,
-      description: '',
-      isPublic: true,
-      storedArtworks: [],
-    });
-
     const payload = { username: user.username, _id: user._id };
 
     const token = jwt.sign({ payload }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -65,7 +57,6 @@ router.post('/sign-in', async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(401).json({ err: 'Invalid credentials.' });
     }
-
 
     const payload = { username: user.username, _id: user._id };
 
