@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import User from '../models/User.js';
+import Collection from '../models/Collection.js';
 
 const saltRounds = 12;
 
@@ -25,7 +26,7 @@ router.post('/sign-up', async (req, res) => {
 
     const user = await User.create({
       username,
-      password: hashedPassword
+      password: hashedPassword,
     });
 
     const payload = { username: user.username, _id: user._id };

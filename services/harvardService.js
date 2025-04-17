@@ -13,7 +13,7 @@ export const searchHarvardArtworks = async (query, size = 10) => {
         apikey: HARVARD_API_KEY,
         q: query,
         size: size,
-        fields: 'id,title,primaryimageurl,people,dated,medium,culture'
+        fields: 'id,title,primaryimageurl,people,dated,medium,culture',
       }
     });
 
