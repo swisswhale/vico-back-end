@@ -1,21 +1,28 @@
-import mongoose from "mongoose";
-const Schema = mongoose.Schema;
-const model = mongoose.model;
+import mongoose from 'mongoose';
 
 const artworkSchema = new mongoose.Schema({
-    artsyId: { type: String, required: true, unique: true },
-    title: String,
-    slug: String,
-    medium: String,
-    category: String,
-    date: String,
-    dimensions: String,
-    collectingInstitution: String,
-    imageUrl: String,
-    permalink: String,
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Optional: tie to user
-}, { timestamps: true });
+    harvardId: { type: String, required: true, unique: true },
+    title: { type: String, required: true },
+    artist: { type: String },
+    date: { type: String },
+    medium: { type: String },
+    classification: { type: String },
+    department: { type: String },
+    culture: { type: String },
+    period: { type: String },
+    dimensions: { type: String },
+    primaryImageSmall: { type: String },
+    primaryImageLarge: { type: String },
+    apiLink: { type: String },
+    objectURL: { type: String },
+    creditLine: { type: String },
+    description: { type: String },
+    provenance: { type: String },
+    comments: [{
+        text: String,
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+        createdAt: { type: Date, default: Date.now }
+    }]
+});
 
-const Artwork = model('Artwork', artworkSchema);
-
-export default { Artwork, artworkSchema}
+export default mongoose.model('Artwork', artworkSchema);
