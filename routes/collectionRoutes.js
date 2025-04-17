@@ -17,21 +17,7 @@ router.get('/', verifyToken, async (req,res) => {
     try {
         const collections = await Collection.find();
 
-        let json = ""
-        let wait = 0
-        collections.forEach(element => {
-            json += `{<br>`
-            Object.keys(element).forEach(key => {
-                json += `&nbsp;&nbsp;&nbsp;&nbsp;${key}: ${element[key]}<br>`
-            })
-            
-            json += `}<br><br>`
-
-            wait++;
-        });
-        if(wait == collections.length) {
-            res.send(`${json}`)
-        }
+        
         res.status(200).json(collections);
     } catch (err) {
         res.status(500).json({ err: err.message }); 
@@ -42,55 +28,6 @@ router.get('/', verifyToken, async (req,res) => {
 // the new/create route for the form page to create a new collection from a user once signed in.
 router.get('/new', verifyToken, async (req,res) => {
     try {
-        const FormTest = `
-        <main>
-            <form action="/" method="post">
-                <div>
-                    <label htmlFor='title'>Title:</label>
-                    <input
-                        type='text'
-                        id='title'
-                        value='title'
-                        name='title'
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor='description'>Description:</label>
-                    <input
-                        type='text'
-                        id='description'
-                        value='description'
-                        name='description'
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor='isPublic'>Show as Public?:</label>
-                    <input
-                        type='checkbox'
-                        id='isPublic'
-                        value='true'
-                        name='isPublic'
-                        
-                    />
-                </div>
-                <div>
-                    (this would be where we would put clickable fetch-data from the APIs
-                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;we're using, similar to the zombie-fighter lab we did awhile back.)
-                </div>
-                <button type="submit">Submit Collection</button>
-            </form>
-        </main>
-        `
-        // Don't touch the code above, it's being used by me so I can get/give an idea of 
-        // how things will look once te frontend is complete, or alternatively, just a testbed 
-        // for seeing if it will actually post to the db we're using.
-        // 
-        // I will probably need something working on the frontend though to better test things 
-        // here, as it's rather hard to know that it's working without this actually being 
-        // able to post anything.
-//                                                                        ~Metroid-X
         res.send(FormTest);
         res.status(200).json(FormTest);
     } catch(err) {
@@ -105,9 +42,7 @@ router.post('/', verifyToken, async (req,res) => {
         const createdCollection = await Collection.create(req.body);
         createdCollection.isPublic = req.body.isPublic == 'true';
         res.status(201).json(createdCollection);
-        // IMPORTANT: this cannot be tested with user-author support until we fix the issues 
-        // with our auth system.
-//                                                                        ~Metroid-X
+        
     } catch (err) {
         res.status(500).json({ err: err.message });
     }
