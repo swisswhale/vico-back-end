@@ -13,7 +13,7 @@ import { searchHarvardArtworks } from './services/harvardService.js';
 dotenv.config();
 
 console.log('🧪 Loaded from .env in server.js:', process.env.HARVARD_API_KEY);
-console.log('Harvard API Key:', process.env.HARVARD_API_KEY);
+console.log('🎨 Harvard API Key:', process.env.HARVARD_API_KEY);
 
 const app = express();
 
