@@ -17,6 +17,8 @@ export const searchHarvardArtworks = async (query, size = 10) => {
       }
     });
 
+    console.log('Successfulyy connected to Harvard API for search. Response:', response.data);
+
     return response.data.records;
   } catch (error) {
     console.error('Error searching Harvard artworks:', error);
@@ -31,6 +33,8 @@ export const getHarvardArtworkById = async (id) => {
         apikey: HARVARD_API_KEY,
       }
     });
+
+    console.log(`Successfully fetched Harvard artwork with id ${id}. Response:`, response.data);
 
     return response.data;
   } catch (error) {
