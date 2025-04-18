@@ -6,7 +6,7 @@ import { getProfile } from '../controllers/userController.js';
 
 const router = express.Router();
 
-router.post('/signup', signup);
+router.post('/sign-up', signup);
 router.post('/signin', signin);
 
 export default router;

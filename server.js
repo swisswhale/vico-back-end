@@ -30,7 +30,7 @@ mongoose.connect(process.env.MONGODB_URI)
   app.use('/artwork', artworkRouter);
   app.use('/api/dev', devRouter);
   
-  const PORT = process.env.PORT || 5000;
+  const PORT = process.env.PORT || 3000;
 
   app.get('/test-harvard-api', async (req, res) => {
     try {
