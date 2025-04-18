@@ -24,32 +24,32 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('✅ Connected to MongoDB'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
-app.use('/auth', authRouter);
-app.use('/users', userRouter);
-app.use('/collections', collectionRouter);
-app.use('/artwork', artworkRouter);
-app.use('/api/dev', devRouter);
+  app.use('/auth', authRouter);
+  app.use('/users', userRouter);
+  app.use('/collections', collectionRouter);
+  app.use('/artwork', artworkRouter);
+  app.use('/api/dev', devRouter);
+  
+  const PORT = process.env.PORT || 3000;
 
-const PORT = process.env.PORT || 3000;
-
-app.get('/test-harvard-api', async (req, res) => {
-  try {
-    const result = await searchHarvardArtworks('Monet');
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to connect to Harvard API' });
-  }
-});
-
-app.get('/', (req, res) => {
-  res.send('🎨 VICO API is live.');
-});
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
-});
+  app.get('/test-harvard-api', async (req, res) => {
+    try {
+      const result = await searchHarvardArtworks('Monet');
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to connect to Harvard API' });
+    }
+  });
+  
+  app.get('/', (req, res) => {
+    res.send('🎨 VICO API is live.');
+  });
+  
+  app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+  });
+  
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
+  });
