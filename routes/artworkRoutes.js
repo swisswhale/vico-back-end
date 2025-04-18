@@ -1,5 +1,5 @@
 import express from 'express';
-import { searchArtworks. getArtwork, saveArtwork } from '../controllers/artworkController.js';
+import { searchArtworks, getArtwork, saveArtwork } from '../controllers/artworkController.js';
 import { authMiddleware } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
