@@ -38,3 +38,12 @@ export const saveArtwork = async (req, res) => {
       res.status(400).json({ message: error.message });
     }
   };
+
+  export const getAllArtworks = async (req, res) => {
+    try {
+      const artworks = await Artwork.find({ user: req.user._id });
+      res.json(artworks);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
