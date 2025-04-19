@@ -2,7 +2,7 @@ import Collection from '../models/Collection.js';
 
 export const getCollections = async (req, res) => {
   try {
-    const collections = await Collection.find({ user: req.user._id });
+    const collections = await Collection.find({ user: req.user.userId });
     res.json(collections);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -11,7 +11,7 @@ export const getCollections = async (req, res) => {
 
 export const getCollection = async (req, res) => {
   try {
-    const collection = await Collection.findOne({ _id: req.params.id, user: req.user._id });
+    const collection = await Collection.findOne({ _id: req.params.id, user: req.user.userId });
     if (!collection) {
       return res.status(404).json({ message: 'Collection not found' });
     }
@@ -22,14 +22,14 @@ export const getCollection = async (req, res) => {
 };
 
 export const createCollection = async (req, res) => {
-  const { name, description } = req.body;
-  const collection = new Collection({
-    name,
-    description,
-    user: req.user._id
-  });
-
   try {
+    const { name, description } = req.body;
+    const collection = new Collection({
+      name,
+      description,
+      user: req.user.userId // ✅ inject from decoded token
+    });
+
     const newCollection = await collection.save();
     res.status(201).json(newCollection);
   } catch (error) {
@@ -41,7 +41,7 @@ export const updateCollection = async (req, res) => {
   try {
     const { name, description } = req.body;
     const collection = await Collection.findOneAndUpdate(
-      { _id: req.params.id, user: req.user._id },
+      { _id: req.params.id, user: req.user.userId },
       { name, description },
       { new: true }
     );
@@ -56,7 +56,7 @@ export const updateCollection = async (req, res) => {
 
 export const deleteCollection = async (req, res) => {
   try {
-    const collection = await Collection.findOneAndDelete({ _id: req.params.id, user: req.user._id });
+    const collection = await Collection.findOneAndDelete({ _id: req.params.id, user: req.user.userId });
     if (!collection) {
       return res.status(404).json({ message: 'Collection not found' });
     }
@@ -69,7 +69,7 @@ export const deleteCollection = async (req, res) => {
 export const addArtworkToCollection = async (req, res) => {
   try {
     const { id, artworkId } = req.params;
-    const collection = await Collection.findOne({ _id: id, user: req.user._id });
+    const collection = await Collection.findOne({ _id: id, user: req.user.userId });
     if (!collection) {
       return res.status(404).json({ message: 'Collection not found' });
     }
@@ -86,11 +86,13 @@ export const addArtworkToCollection = async (req, res) => {
 export const removeArtworkFromCollection = async (req, res) => {
   try {
     const { id, artworkId } = req.params;
-    const collection = await Collection.findOne({ _id: id, user: req.user._id });
+    const collection = await Collection.findOne({ _id: id, user: req.user.userId });
     if (!collection) {
       return res.status(404).json({ message: 'Collection not found' });
     }
-    collection.artworks = collection.artworks.filter(artwork => artwork.toString() !== artworkId);
+    collection.artworks = collection.artworks.filter(
+      (art) => art.toString() !== artworkId
+    );
     await collection.save();
     res.json(collection);
   } catch (error) {
