@@ -7,4 +7,6 @@ const collectionSchema = new mongoose.Schema({
     artworks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Artwork' }],
 });
 
+collectionSchema.index({ user: 1, name: 1 }, { unique: true });
+
 export default mongoose.model('Collection', collectionSchema);

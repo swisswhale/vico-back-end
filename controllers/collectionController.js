@@ -9,6 +9,18 @@ export const getCollections = async (req, res) => {
   }
 };
 
+export const getCollection = async (req, res) => {
+  try {
+    const collection = await Collection.findOne({ _id: req.params.id, user: req.user._id });
+    if (!collection) {
+      return res.status(404).json({ message: 'Collection not found' });
+    }
+    res.json(collection);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const createCollection = async (req, res) => {
   const { name, description } = req.body;
   const collection = new Collection({
@@ -25,20 +37,61 @@ export const createCollection = async (req, res) => {
   }
 };
 
-export const addArtworkToCollection = async (req, res) => {
+export const updateCollection = async (req, res) => {
   try {
-    const { collectionId, artworkId } = req.params;
-    const collection = await Collection.findById(collectionId);
+    const { name, description } = req.body;
+    const collection = await Collection.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      { name, description },
+      { new: true }
+    );
     if (!collection) {
       return res.status(404).json({ message: 'Collection not found' });
     }
-    if (collection.user.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: 'User not authorized' });
+    res.json(collection);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const deleteCollection = async (req, res) => {
+  try {
+    const collection = await Collection.findOneAndDelete({ _id: req.params.id, user: req.user._id });
+    if (!collection) {
+      return res.status(404).json({ message: 'Collection not found' });
+    }
+    res.json({ message: 'Collection deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const addArtworkToCollection = async (req, res) => {
+  try {
+    const { id, artworkId } = req.params;
+    const collection = await Collection.findOne({ _id: id, user: req.user._id });
+    if (!collection) {
+      return res.status(404).json({ message: 'Collection not found' });
     }
     if (!collection.artworks.includes(artworkId)) {
       collection.artworks.push(artworkId);
       await collection.save();
     }
+    res.json(collection);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+export const removeArtworkFromCollection = async (req, res) => {
+  try {
+    const { id, artworkId } = req.params;
+    const collection = await Collection.findOne({ _id: id, user: req.user._id });
+    if (!collection) {
+      return res.status(404).json({ message: 'Collection not found' });
+    }
+    collection.artworks = collection.artworks.filter(artwork => artwork.toString() !== artworkId);
+    await collection.save();
     res.json(collection);
   } catch (error) {
     res.status(400).json({ message: error.message });
