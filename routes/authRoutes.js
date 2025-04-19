@@ -4,13 +4,17 @@ import { verifyToken } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Sign up route
+// Public routes
 router.post('/signup', authCtrl.signup);
-
-// Sign in route
 router.post('/signin', authCtrl.signin);
 
-// Protected route to get user profile
-router.get('/profile', verifyToken, authCtrl.getProfile);
+// Protected routes
+router.use(verifyToken); // Apply verifyToken middleware to all routes below this line
+
+router.post('/signout', authCtrl.signout);
+router.get('/profile', authCtrl.getProfile);
+router.put('/profile', authCtrl.updateProfile);
+router.put('/change-password', authCtrl.changePassword);
+router.get('/check-session', authCtrl.checkSession);
 
 export default router;
