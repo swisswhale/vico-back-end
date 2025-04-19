@@ -1,13 +1,16 @@
 import express from 'express';
-import { signup, signin } from '../controllers/authController.js';
-import { authMiddleware } from '../middleware/authMiddleware.js';
-import { get } from 'mongoose';
-import { getProfile } from '../controllers/userController.js';
+import * as authCtrl from '../controllers/authController.js';
+import { verifyToken } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/sign-up', signup);
-router.post('/signin', signin);
+// Sign up route
+router.post('/signup', authCtrl.signup);
+
+// Sign in route
+router.post('/signin', authCtrl.signin);
+
+// Protected route to get user profile
+router.get('/profile', verifyToken, authCtrl.getProfile);
 
 export default router;
-
