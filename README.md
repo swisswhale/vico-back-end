@@ -63,11 +63,19 @@ vico-back-end/
    git clone https://github.com/swisswhale/vico-back-end.git
    cd vico-back-end
    ```
-2.	Install dependencies: ```npm install```
+2.	Install dependencies: 
+    ```bash
+    npm install
+    ```
 
 3.	Create a. `.env` file and add:<br/>
-```MONGODB_URI=<your_mongo_uri>```<br/>
-```JWT_SECRET=<your_jwt_secret>```<br/>
-```HARVARD_API_KEY=<your_harvard_api_key>```<br/>
+    ```bash
+    MONGODB_URI=<your_mongo_uri><br/>
+    JWT_SECRET=<your_jwt_secret><br/>
+    HARVARD_API_KEY=<your_harvard_api_key>
+    ```
 
-4.	Run the server:```nodemon server.js```
+4.	Run the server:
+    ```bash
+    nodemon server.js
+    ```
