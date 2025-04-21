@@ -70,8 +70,8 @@ vico-back-end/
 
 3.	Create a. `.env` file and add:<br/>
     ```bash
-    MONGODB_URI=<your_mongo_uri><br/>
-    JWT_SECRET=<your_jwt_secret><br/>
+    MONGODB_URI=<your_mongo_uri>
+    JWT_SECRET=<your_jwt_secret>
     HARVARD_API_KEY=<your_harvard_api_key>
     ```
 
