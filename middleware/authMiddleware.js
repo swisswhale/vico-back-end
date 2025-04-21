@@ -19,5 +19,5 @@ export const verifyToken = (req, res, next) => {
   }
 };
 
-// Alias verifyToken as authMiddleware for backward compatibility
+
 export const authMiddleware = verifyToken;

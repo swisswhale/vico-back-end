@@ -10,11 +10,11 @@ const userSchema = new mongoose.Schema({
         validate: {
             validator: function (value) {
                 return (
-                    /[a-z]/.test(value) && // lowercase
-                    /[A-Z]/.test(value) && // uppercase
-                    /\d/.test(value) && // number
-                    /[^A-Za-z0-9]/.test(value) && // special character
-                    /^\S+$/.test(value) // no spaces
+                    /[a-z]/.test(value) && 
+                    /[A-Z]/.test(value) && 
+                    /\d/.test(value) && 
+                    /[^A-Za-z0-9]/.test(value) && 
+                    /^\S+$/.test(value) 
                 );
             },
             message:
@@ -42,6 +42,3 @@ userSchema.set('toJSON', {
 
 export default mongoose.model('User', userSchema);
 
-// ES module export for testing
-// const User = mongoose.model('User', userSchema);
-// export default User;

@@ -7,14 +7,14 @@ export const signup = async (req, res) => {
     const { username, password } = req.body;
     console.log('Signup attempt for:', username);
 
-    // Check for existing username
+    
     const existingUsername = await User.findOne({ username });
     if (existingUsername) {
       console.log('Username already exists:', username);
       return res.status(400).json({ message: 'Username already exists' });
     }
 
-    // If we get here no username exists
+    
     const newUser = new User({ username, password });
     await newUser.save();
 
@@ -66,8 +66,7 @@ export const signin = async (req, res) => {
 };
 
 export const signout = async (req, res) => {
-  // JWT tokens are stateless, so we can't invalidate them on the server
-  // Best practice is to remove the token on the client-side
+  
   res.json({ message: 'Logged out successfully' });
 };
 
