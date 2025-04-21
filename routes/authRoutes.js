@@ -9,7 +9,7 @@ router.post('/signup', authCtrl.signup);
 router.post('/signin', authCtrl.signin);
 
 // Protected routes
-router.use(verifyToken); // Apply verifyToken middleware to all routes below this line
+router.use(verifyToken); 
 
 router.post('/signout', authCtrl.signout);
 router.get('/profile', authCtrl.getProfile);

@@ -27,7 +27,7 @@ export const createCollection = async (req, res) => {
     const collection = new Collection({
       name,
       description,
-      user: req.user.userId // ✅ inject from decoded token
+      user: req.user.userId 
     });
 
     const newCollection = await collection.save();

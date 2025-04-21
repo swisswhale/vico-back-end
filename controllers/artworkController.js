@@ -5,7 +5,7 @@ export const searchArtworks = async (req, res) => {
     try {
         const { query } = req.query;
         
-        // First, search local database
+        
         const localArtworks = await Artwork.find({
             $or: [
                 { title: { $regex: query, $options: 'i' } },
@@ -13,10 +13,10 @@ export const searchArtworks = async (req, res) => {
             ]
         }).limit(20);
 
-        // Then, search Harvard API
+        
         const harvardArtworks = await searchHarvardArtworks(query);
 
-        // Combine results, removing duplicates based on harvardId
+        
         const combinedResults = [...localArtworks];
         harvardArtworks.forEach(harvardArtwork => {
             if (!combinedResults.some(art => art.harvardId === harvardArtwork.harvardId)) {
@@ -34,11 +34,11 @@ export const getArtwork = async (req, res) => {
     try {
         const { id } = req.params;
         
-        // First, try to find in local database
+        
         let artwork = await Artwork.findOne({ harvardId: id });
         
         if (!artwork) {
-            // If not found locally, fetch from Harvard API
+            
             const harvardArtwork = await getHarvardArtworkById(id);
             if (!harvardArtwork) {
                 return res.status(404).json({ message: 'Artwork not found' });
